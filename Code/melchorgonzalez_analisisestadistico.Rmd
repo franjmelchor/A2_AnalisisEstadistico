@@ -101,30 +101,56 @@ dotchart(childCarSeats_clean$Sales,labels=,cex=0.7,
          main="Ventas por ubicación",
          xlab="Ventas por mil", cex.main=0.8, cex.lab=0.8)
 
-colorForHistograms = rainbow(table (unlist(lapply(childCarSeats_clean, is.numeric)))["TRUE"] - 1)
 
-hist(childCarSeats_clean$CompPrice, breaks=sqrt(dim(childCarSeats_clean)[1]), col=colorForHistograms[1],main="Precio que cobra la competencia",
+colorForHistograms = rainbow(table (unlist(lapply(childCarSeats_clean, 
+                                                  is.numeric)))["TRUE"] - 1)
+
+hist(childCarSeats_clean$CompPrice, breaks=sqrt(dim(childCarSeats_clean)[1]), 
+     col=colorForHistograms[1],main="Precio que cobra la competencia",
      xlab="Precio en euros",cex.main=0.8, cex.lab=0.8)
 
-hist(childCarSeats_clean$Income, breaks=sqrt(dim(childCarSeats_clean)[1]), col=colorForHistograms[2],main="Nivel de ingresos comunitarios",
+hist(childCarSeats_clean$Income, breaks=sqrt(dim(childCarSeats_clean)[1]), 
+     col=colorForHistograms[2],main="Nivel de ingresos comunitarios",
      xlab="Nivel de ingresos en miles de dólares",cex.main=0.8, cex.lab=0.8)
 
-hist(childCarSeats_clean$Advertising, breaks=sqrt(dim(childCarSeats_clean)[1]), col=colorForHistograms[3],main="Presupuesto de publicida local",
+hist(childCarSeats_clean$Advertising, breaks=sqrt(dim(childCarSeats_clean)[1]), 
+     col=colorForHistograms[3],main="Presupuesto de publicida local",
      xlab="Presupuesto en miles de dólares",cex.main=0.8, cex.lab=0.8)
 
-hist(childCarSeats_clean$Population, breaks=sqrt(dim(childCarSeats_clean)[1]), col=colorForHistograms[4],main="Tamaño de la población",
+hist(childCarSeats_clean$Population, breaks=sqrt(dim(childCarSeats_clean)[1]), 
+     col=colorForHistograms[4],main="Tamaño de la población",
      xlab="Tamaño de la población en miles",cex.main=0.8, cex.lab=0.8)
 
-hist(childCarSeats_clean$Price, breaks=sqrt(dim(childCarSeats_clean)[1]), col=colorForHistograms[5],main="Precio de las sillitas",
+hist(childCarSeats_clean$Price, breaks=sqrt(dim(childCarSeats_clean)[1]), 
+     col=colorForHistograms[5],main="Precio de las sillitas",
      xlab="Precio en euros",cex.main=0.8, cex.lab=0.8)
 
-hist(childCarSeats_clean$Age, breaks=sqrt(dim(childCarSeats_clean)[1]), col=colorForHistograms[6],main="Edad media de la población",
+hist(childCarSeats_clean$Age, breaks=sqrt(dim(childCarSeats_clean)[1]), 
+     col=colorForHistograms[6],main="Edad media de la población",
      xlab="Edad media en años",cex.main=0.8, cex.lab=0.8)
 
-hist(childCarSeats_clean$Age, breaks=sqrt(dim(childCarSeats_clean)[1]), col=colorForHistograms[7],main="Media del nivel de educación 
-     de la población",
+hist(childCarSeats_clean$Education, breaks=sqrt(dim(childCarSeats_clean)[1]), 
+col=colorForHistograms[7],main="Media del nivel de educación de la población",
      xlab="Años de educación",cex.main=0.8, cex.lab=0.8)
+
 ```
+
+* Si observamos la **primera gráfica** comenzando por la izquierda, podemos observar que la gran mayoría de valores se encuentran acumulados entre 5 y 10, lo que indica que **la gran mayoría de las tiendas venden entre 5 mil y 10 mil sillas**. También se puede observar que existen algunos valores atípicos por encima de 15 mil.
+
+* La **segunda gráfica** se trata de un histograma con una distribución **bimodal** ya que sobresalen dos picos por encima de los demás. Esto indica que existen dos modas presentes en el precio que cobra la competencia, en este caso la primera sería de [120,125) y la segunda de [130,135), lo que quiere decir que **el precio que cobra la competencia tiende a estar en el intervalo [120,125) y en el intervalo [130,135)**
+
+    En este caso, los dos intervalos que representan las dos modas presentes en los datos, se encuentran muy cercanos, por lo que **también podría considerarse un histograma con una distribución unimodal o de forma normal**, donde la moda se encuentra en el **intervalo [120, 135)**.
+
+* La **tercera gráfica** se trata de un histograma con una distribución **uniforme**, lo que indica que no existe una tendencia presente en los datos, es decir, **el nivel de ingresos comunitarios se encuentra distribuido de manera uniforme entre 20 y 120 miles de dólares**.
+
+
+* La **cuarta gráfica** se trata de un histograma con una distribución **unimodal con asimetría a la derecha**, además de manera **muy pronunciada**. En este caso, la moda se encuentra en el primer intervalo, que corresponde con el intervalo [0,1.5), lo que quiere decir que **la mayoría de las tiendas invierten unos 1500 euros en publicidad local para publicitar las sillitas de bebé**
+
+* La **quinta gráfica** se trata de un histograma con una distribución **uniforme**, lo que nos indica que **el tamaño de la población está distribuido de manera uniforme entre 10 mil que es el mínimo y 509 mil que es el máximo** de población.
+
+* La **sexta gráfica** se trata de un histograma con una distribución **unimodal con una forma normal o simétrico**. En este caso, la moda se encuentra apróximadamente en los tres intervalos centrales, que corresponden con el intervalo [100,130] apróximadamente si juntamos los tres. Esto quiere decir, que **la mayoría de las sillas tienen un precio entre los 100 y los 130 euros apróximadamente**.
+
+* Por último, **tanto la séptima gráfica como la octava**, representan un **histograma con una distribución uniforme**, lo que indica que tanto **la edad media de la población** como **los años de educación** **se reparten de manera uniforme** entre todos sus valores posibles, **en el caso de la edad media entre los 25 y los 70 años**, y **en el caso de los años de educación entre los 10 y los 18 años**.
 
 
 

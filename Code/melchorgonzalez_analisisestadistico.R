@@ -61,7 +61,7 @@ hist(childCarSeats_clean$Price, breaks=sqrt(dim(childCarSeats_clean)[1]), col=co
 hist(childCarSeats_clean$Age, breaks=sqrt(dim(childCarSeats_clean)[1]), col=colorForHistograms[6],main="Edad media de la población",
      xlab="Edad media en años")
 
-hist(childCarSeats_clean$Age, breaks=sqrt(dim(childCarSeats_clean)[1]), col=colorForHistograms[7],main="Media del nivel de educación",
+hist(childCarSeats_clean$Education, breaks=sqrt(dim(childCarSeats_clean)[1]), col=colorForHistograms[7],main="Media del nivel de educación",
      xlab="Años de educación")
-
-
+min(childCarSeats_clean$Education)
+max(childCarSeats_clean$Population)
