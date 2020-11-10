@@ -1,3 +1,5 @@
+setwd("C:\\Users/PCI04/Desktop/Máster UOC/Est. Avanzada/A2 - Análisis estadístico I/Code/")
+
 childCarSeats_clean_filename <- "../Data/ChildCarSeats_clean.csv"
 childCarSeats_clean <- read.csv(file=childCarSeats_clean_filename, header=TRUE, sep=",", na.strings=c(""," ","NA"))
 head(childCarSeats_clean)
@@ -65,3 +67,26 @@ hist(childCarSeats_clean$Education, breaks=sqrt(dim(childCarSeats_clean)[1]), co
      xlab="Años de educación")
 min(childCarSeats_clean$Education)
 max(childCarSeats_clean$Population)
+
+
+dim(childCarSeats_clean)[1] 
+
+s = sd(childCarSeats_clean$Sales)
+n = dim(childCarSeats_clean)[1]
+
+me = abs(qt((1-0.95)/2,n-1 )) * (s/sqrt(n))
+me
+mean(childCarSeats_clean$Sales)
+x = mean(childCarSeats_clean$Sales)
+
+x - me
+
+confidenceInterval = c(x-me,x+me)
+confidenceInterval
+
+install.packages("Rmisc")
+library(Rmisc)
+
+CI(childCarSeats_clean$Sales, ci=0.95)
+
+

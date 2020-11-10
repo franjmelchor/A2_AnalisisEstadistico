@@ -11,7 +11,23 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 
 ```
+# Paquetes
+Los paquetes que se van a utilizar para el desarrollo de esta actividad, son los siguientes:
+```{r, message=FALSE}
+if(!require(Rmisc)){
+  install.packages("Rmisc")
+  library(Rmisc)
+}
+```
 # 1. Estadística descriptiva 
+**Enunciado**: 
+
+*En primer lugar, leed el fichero de datos y verificad que los tipos de datos se interpretan correctamente. Si fuera necesario, haced las oportunas conversiones de tipos.*
+
+*A continuación, realizad una visualización gráfica de los datos del conjunto de datos.*
+
+**Solución**:
+
 En primer lugar, realizamos la lectura del fichero **ChildCarSeats_clean**, aplicando para ello la función *read.csv*.
 
 En este caso, indicaremos como parámetros que el dataset sí tiene header *(header=TRUE)*, que el separador de columnas es la ',' *(sep=",")*, que los strings a interpretar como NA son tanto los campos vacíos, los que tienen un espacio en blanco y en los que aparece la cadena "NA" *(na.strings=c(""," ","NA"))* y por último, que las columnas de tipo String, sean consideradas como factores, ya que todas las columnas que son de tipo String, en este caso son factores.
@@ -74,7 +90,7 @@ pie(mytableUS, labels = lblsUS, col=rainbow(length(lblsUS)),
 
 * Por último, la última gráfica indica que **la mayoría de las tiendas que se están analizando se encuentran dentro de USA**, pues la clase "Yes", representa un 64%.
 
-## 1.1 Representación gráfica de variables numéricas
+## 1.2 Representación gráfica de variables numéricas
 
 ```{r}
 unlist(lapply(childCarSeats_clean, is.numeric))
@@ -152,5 +168,46 @@ col=colorForHistograms[7],main="Media del nivel de educación de la población",
 
 * Por último, **tanto la séptima gráfica como la octava**, representan un **histograma con una distribución uniforme**, lo que indica que tanto **la edad media de la población** como **los años de educación** **se reparten de manera uniforme** entre todos sus valores posibles, **en el caso de la edad media entre los 25 y los 70 años**, y **en el caso de los años de educación entre los 10 y los 18 años**.
 
+# 2. Intervalo de confianza de la media poblacional de las ventas
+**Enunciado**: *Calculad de manera manual el intervalo de confianza de la media poblacional de las ventas (variable Sales) e interpretar el significado del mismo a partir del resultado obtenido.*
+
+**Solución**:
+A continuación, procederemos a realizar el cálculo del intervalo de confianza de la variable **Sales**
+
+## 2.1 Cálculo
+Para realizar el cálculo manual de la variable **sales**, utilizaremos varias funciones, entre ellas cabe destacar las siguientes:
+
+* **sd**: En primer lugar utilizaremos la función sd para calcular la desviación estándar de la variable Sales
+* **qt**: La función qt la utilizaremos para calcular los valores críticos de la distribución t de Student, la cual recibe como primer parámetro el inverso al nivel de confianza y como segundo parámetro el grado de libertad. En nuestro caso el nivel de confianza por defecto es 95%, por lo que como primer parámetro se pasará el valor **"(1-0.95)/2"** (la razón por la que dividimos entre dos es porque queremos obtener el valor crítico para una prueba bilateral) y como segundo parámetro pasaremos **n - 1** *siendo n la longitud del vector Sales*.
+
+Por último, tras utilizar estas funciones, se aplicará la fórmula del **margen de error** (Figura 1) para calcular el mismo a partir de los valores anteriormente calculados, y posteriormente, poder calcular a partir de este el **intervalo de confianza** (Figura 2).
 
 
+![Fórmula del margen de error](margenError.png)
+
+
+![Fórmula del intervalo de confianza](intConfianza.png)
+
+```{r}
+s = sd(childCarSeats_clean$Sales)
+n = dim(childCarSeats_clean)[1]
+
+me = abs(qt((1-0.95)/2,n-1 )) * (s/sqrt(n))
+x = mean(childCarSeats_clean$Sales)
+confidenceInterval = c(x-me,x+me)
+confidenceInterval
+
+```
+
+Para calcular que el intervalo de confianza de la variable Sales ha sido calculado correctamente, se procede a calcular el mismo a través de la función **CI** del paquete **Rmisc**:
+
+```{r}
+CI(childCarSeats_clean$Sales, ci=0.95)
+
+```
+
+Como se puede observar, el componente **lower** devuelto por la función CI, **coincide con el valor inferior** del intervalo que hemos **calculado anteriormente** y el componente **upper, coincide con el valor superior**.
+
+## 2.2 Interpretación 
+
+La interpretación del resultado obtenido como intervalo de confianza es la siguiente: **en el 95% de las muestras de 400 tiendas el valor de la media muestral obtenida hace que el intervalo calculado contenga el verdadero valor de la media poblacional de las ventas.**
