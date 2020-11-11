@@ -189,13 +189,16 @@ Por último, tras utilizar estas funciones, se aplicará la fórmula del **marge
 ![Fórmula del intervalo de confianza](intConfianza.png)
 
 ```{r}
-s = sd(childCarSeats_clean$Sales)
-n = dim(childCarSeats_clean)[1]
+getConfidentInterval<- function(x){
+    s = sd(x)
+    n = length(x)
+    me = abs(qt((1-0.95)/2,n-1 )) * (s/sqrt(n))
+    x = mean(childCarSeats_clean$Sales)
+    confidenceInterval = c(x-me,x+me)
+    return (confidenceInterval)
+}
+getConfidentInterval(childCarSeats_clean$Sales)
 
-me = abs(qt((1-0.95)/2,n-1 )) * (s/sqrt(n))
-x = mean(childCarSeats_clean$Sales)
-confidenceInterval = c(x-me,x+me)
-confidenceInterval
 
 ```
 
@@ -210,4 +213,28 @@ Como se puede observar, el componente **lower** devuelto por la función CI, **c
 
 ## 2.2 Interpretación 
 
-La interpretación del resultado obtenido como intervalo de confianza es la siguiente: **en el 95% de las muestras de 400 tiendas el valor de la media muestral obtenida hace que el intervalo calculado contenga el verdadero valor de la media poblacional de las ventas.**
+La interpretación del resultado obtenido como intervalo de confianza es la siguiente: **existe una probabilidad del 95% de que el verdadero valor de la media poblacional de la variable Sales se encuentre entre los valores 7.141372 y 7.678578**
+
+## 2.3 Intervalo de confianza de la media poblacional de Sales en USA y fuera de USA
+**Enunciado**:
+
+*Calculad el intervalo de confianza de la media poblacional de Sales en las tiendas de USA y en las tiendas de fuera de USA respectivamente. Comparad los resultados. ¿Podemos concluir que las dos variables tienen medias poblacionales iguales o diferentes? Explicar.*
+
+**Solución**:
+A continuación, procedemos a realizar el cálculo del intervalo de confianza en las tiendas de USA y en las tiendas fuera de USA.
+```{r}
+getConfidentInterval(childCarSeats_clean[childCarSeats_clean$US=='Yes',]$Sales)
+getConfidentInterval(childCarSeats_clean[childCarSeats_clean$US=='No',]$Sales)
+
+```
+Como se puede ver, los intervalos obtenidos para esta media muestral son diferentes para las tiendas que se encuentran dentro de USA y para las que se encuentran fuera de USA, pero a pesar de ser diferentes tiene muchos valores posibles en común, ya que existen valores comunes en ambos intervalos. Pero realmente contestando a la pregunta de si ***¿Podemos concluir que las dos variables tienen medias poblacionales iguales o diferentes?***, la respuesta sería **negativa**, es decir, no podemos concluir o afirmar que las dos variables tienen medias poblacionales iguales o diferentes porque no podemos asegurar que el resultado de la media poblacional se encuentra realmente entre los intervalos de confianza que hemos obtenido, lo único que podriamos concluir es que con un 95% de probabilidad la media poblacional de ambas se encontrará entre los intervalos calculados, puede que esta media sea la misma (ya que muchos puntos de dichos intervalos son comunes), pero en ningún caso podríamos concluir o asegurar que la media poblacional de ambos casos es igual o diferente.
+
+
+
+
+
+
+
+
+
+

@@ -88,5 +88,19 @@ install.packages("Rmisc")
 library(Rmisc)
 
 CI(childCarSeats_clean$Sales, ci=0.95)
+length(childCarSeats_clean$Sales)
 
+getConfidentInterval<- function(x){
+    s = sd(x)
+    n = length(x)
+    me = abs(qt((1-0.95)/2,n-1 )) * (s/sqrt(n))
+    x = mean(childCarSeats_clean$Sales)
+    confidenceInterval = c(x-me,x+me)
+    return (confidenceInterval)
+}
+getConfidentInterval(childCarSeats_clean$Sales)
+getConfidentInterval(childCarSeats_clean[childCarSeats_clean$US=='Yes',]$Sales)
+getConfidentInterval(childCarSeats_clean[childCarSeats_clean$US=='No',]$Sales)
+
+childCarSeats_clean[childCarSeats_clean$US=='Yes',]$Sales
 
