@@ -104,3 +104,145 @@ getConfidentInterval(childCarSeats_clean[childCarSeats_clean$US=='No',]$Sales)
 
 childCarSeats_clean[childCarSeats_clean$US=='Yes',]$Sales
 
+
+
+x <- childCarSeats_clean$Sales
+h<-hist(x, breaks=10, col="red", xlab="Miles Per Gallon",
+        main="Histogram with Normal Curve")
+xfit<-seq(min(x),max(x),length=40)
+yfit<-dnorm(xfit,mean=mean(x),sd=sd(x))
+yfit <- yfit*diff(h$mids[1:2])*length(x)
+lines(xfit, yfit, col="blue", lwd=2)
+
+
+
+Mode <- function(x) {
+    ux <- unique(x)
+    ux[which.max(tabulate(match(x, ux)))]
+}
+median(childCarSeats_clean$Sales)
+Mode(childCarSeats_clean$Sales)
+mean(childCarSeats_clean$Sales)
+
+
+seq(min(x),max(x),length=40)
+
+abs(qt((1-0.95)/2,38 ))
+
+
+sqrt (25)
+getComunStd <- function(m1,m2) {
+    s1 = sd(m1)
+    s2 = sd(m2)
+    n1 = length(m1)
+    n2 = length(m2)
+    comunStd = sqrt( ((n1 - 1)*(s1^2) + (n2-1)*(s2^2) ) / (n1 + n2 -2) )
+    return (comunStd)
+}
+
+getObservedValue <- function (m1,m2) {
+    return ((mean(m1) - mean(m2)) / ( getComunStd(m1,m2) * sqrt((1/length(m1)) + (1/length(m2)) ) ) )
+}
+
+getCriticalValueStudent <- function(n1,n2) {
+    return (qt((1-0.95)/2,(n1+n2-2)))
+}
+
+getPValueStudent <- function (tValue, degreesOfFreedom) {
+    return (pt(t, lower.tail = TRUE))
+}
+
+
+
+##Menor que (<)
+pt (0.971,8,lower.tail = TRUE)
+
+##Distinto
+2 * ( 1 - pt(2.34,8,lower.tail = TRUE))
+
+##Mayor que (>)
+ 1 - pt (0.971,8,lower.tail = TRUE)
+
+
+
+a <- c(10.7,14.8,12.3,16.5,10.2,11.9)
+b <- c(13.4,11.5,11.2,15.1,13.3,12.9)
+
+t = getObservedValue(a,b)
+df = length(a) + length(b) - 2
+getPValueStudent(t,df)
+
+getComunStd(a,b)
+
+mean(a)
+mean(b)
+
+(mean(a) - mean(b) )/ getComunStd(a,b)
+
+getComunStd(a,b) * sqrt((1/length(a)) + (1/length(b)))
+
+
+childCarSeats_clean[childCarSeats_clean$Urban=='Yes',]$Sales
+
+
+qnorm((1-0.95)/2)
+
+1 - pnorm(2.87,lower.tail = TRUE)
+
+getCommonPopulationProportion <- function (n1,n2,p1,p2) {
+    return((n1*p1 + n2*p2) / (n1+n2))
+}
+
+getProportionObservedValue <- function (n1,n2,p1,p2) {
+    p = getCommonPopulationProportion(n1,n2,p1,p2)
+    stdError = sqrt(p*(1-p)*((1/n1)+(1/n2)))
+    z=(p1 - p2)/stdError
+    return (z)
+}
+
+getCriticalValueNormal <- function() {
+    return (abs((qnorm((1-0.95)/2))))
+}
+
+getPValueNormal <- function(z) {
+    return (pnorm(z,lower.tail = TRUE))
+}
+getProportionObservedValue(200,500,(120/200),(240/500))
+1 - getPValueNormal(2.87)
+p1 = dim(childCarSeats_clean[childCarSeats_clean$Price < childCarSeats_clean$CompPrice,])[1] / length(childCarSeats_clean$Price)
+p2 = dim(childCarSeats_clean[childCarSeats_clean$Price > childCarSeats_clean$CompPrice,])[1] / length(childCarSeats_clean$Price)
+n2 = length(childCarSeats_clean$Price)
+n1 = length(childCarSeats_clean$Price)
+z = getProportionObservedValue(n1,n2,p1,p2)
+
+childCarSeats_clean[childCarSeats_clean$Price > childCarSeats_clean$CompPrice,]
+
+
+dim(childCarSeats_clean[childCarSeats_clean$Price < childCarSeats_clean$CompPrice,])[1]
+
+length(childCarSeats_clean[childCarSeats_clean$Price > childCarSeats_clean$CompPrice,])
+
+dim(childCarSeats_clean[childCarSeats_clean$Price == childCarSeats_clean$CompPrice,])[1]
+
+childCarSeats_clean[childCarSeats_clean$Price < childCarSeats_clean$CompPrice,]
+
+ 1 - pnorm(2,87)
+
+getCommonPopulationProportion(1500,2000,(725/1500),(1050/2000))
+
+
+df6 = childCarSeats_clean[childCarSeats_clean$Price < childCarSeats_clean$CompPrice,]
+df6
+p16 = dim (df6[df6$US == 'Yes',])[1] / dim(df6)[1]
+p26 = dim (df6[df6$US == 'No',])[1] / dim(df6)[1]
+n = dim(df6)[1]
+
+##HO: p16-p26 = 0
+##H1: p16-p26 != 0
+
+z6 = getProportionObservedValue(n,n,p16,p26)
+
+pnorm6 = 2 * (1 - getPValueNormal(z6))
+
+
+## como pnorm6 < H0 aceptamos la hipótesis nula 

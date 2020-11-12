@@ -230,11 +230,297 @@ getConfidentInterval(childCarSeats_clean[childCarSeats_clean$US=='No',]$Sales)
 Como se puede ver, los intervalos obtenidos para esta media muestral son diferentes para las tiendas que se encuentran dentro de USA y para las que se encuentran fuera de USA, pero a pesar de ser diferentes tiene muchos valores posibles en común, ya que existen valores comunes en ambos intervalos. Pero realmente contestando a la pregunta de si ***¿Podemos concluir que las dos variables tienen medias poblacionales iguales o diferentes?***, la respuesta sería **negativa**, es decir, no podemos concluir o afirmar que las dos variables tienen medias poblacionales iguales o diferentes porque no podemos asegurar que el resultado de la media poblacional se encuentra realmente entre los intervalos de confianza que hemos obtenido, lo único que podriamos concluir es que con un 95% de probabilidad la media poblacional de ambas se encontrará entre los intervalos calculados, puede que esta media sea la misma (ya que muchos puntos de dichos intervalos son comunes), pero en ningún caso podríamos concluir o asegurar que la media poblacional de ambos casos es igual o diferente.
 
 
+# 3. Ventas del producto en USA y fuera de USA
+**Enunciado**:
+
+*Para evaluar si las ventas del producto son superiores en las tiendas de USA que fuera de USA, podemos aplicar un test de hipótesis de dos muestras. Seguid los pasos que se indican a continuación.*
+
+## 3.1 Hipótesis nula y alternativa
+
+**Enunciado**:
+
+*Escribid la hipótesis nula y la alternativa.*
+
+**Solución**:
+
+* La **hipótesis nula** (de ahora en adelante $H_{0}$) sería: Media Poblacional de ventas del producto dentro de USA (de ahora en adelante $\mu_{DUSA}$) - Media Poblacional de ventas del producto fuera de USA (de ahora en adelante $\mu_{FUSA}$) = 0 ($H_{0}$: $\mu_{DUSA}$ - $\mu_{FUSA}$ = 0) (es decir, que la media poblacional de ventas es la misma tanto dentro de USA como fuera de USA)
+
+* La **hipótesis alternativa** (de ahora en adelante $H_{1}$) sería:  $\mu_{DUSA}$ - $\mu_{FUSA}$ > 0 ($H_{1}$: $\mu_{DUSA}$ - $\mu_{FUSA}$ > 0) (es decir, que la media poblacional de ventas en las tiendas de USA es superior a la media poblacional de ventas en las tiendas fueras de USA)
+
+## 3.2 Test a aplicar
+
+**Enunciado**:
+
+*Revisad si se cumple el supuesto de normalidad para la variable Sales y a partir de este resultado, explicad qué test aplicaréis para el test de hipótesis de dos muestras. Podéis usar los tests y las funciones de R que consideréis necesarios para validar el cumplimiento de condiciones.*
+
+**Solución**:
+
+Para revisar si se cumple el supuesto de normalidad para la variable Sales representaremos esta gráficamente a través de un histograma y de una línea de puntos y veremos si tiene la forma de la distribución normal o similar a esta:
+
+```{r}
+x <- childCarSeats_clean$Sales
+h<-hist(x, breaks=10, col="red", xlab="Ventas por mil",
+        main="Ventas por ubicación")
+xfit<-seq(min(x),max(x),length=40)
+yfit<-dnorm(xfit,mean=mean(x),sd=sd(x))
+yfit <- yfit*diff(h$mids[1:2])*length(x)
+lines(xfit, yfit, col="blue", lwd=2)
+```
+
+Como se puede observar a través de la gráfica anterior, la distribución muestral de la variable Sales, se distribuye aproximadamente como una muestra normal, podríamos decir que como una distribución t Student, ya que es la distribución más cercana a la normal. Pero además de ello, aplicando el **teorema del límite central**, al tratarse de una muestra bastante grande (n = 400 > 30), sea cual sea la distribución de la variable de interés o de la media poblacional, la **distribución de la media muestral de la variable Sales será aproximadamente como una normal**, siendo la desviación típica de la media muestral aproximadamente el error estándar.
+
+Una vez comprobado que la distribución cumple el supuesto de normalidad, el test que aplicaremos para evaluar si las ventas del producto son superiores en las tiendas de USA que fuera de USA es un **test de hipótesis sobre la diferencia de medias entre las dos muestras a evaluar (ventas fueras de USA y ventas dentro de USA), partiendo del caso de que se desconoce las varianzas poblacionales pero que estas son las mismas **.
 
 
+## 3.3 Cálculos
+
+**Enunciado**:
+
+*Calculad el test de hipótesis. Debéis desarrollar todos los cálculos con vuestras propias instrucciones. Calculad el valor observado, el valor crítico y el valor p. Al igual que antes, no podéis usar fuciones de R como t.test, pero sí podéis usar funciones como qnorm, pnorm, qt, pt para consultar los valores de las distribuciones normal y t-Student.*
+
+**Solución**:
+Para calcular el **test de hipótesis** utilizaremos ciertas funciones desarrolladas que nos permitirán conocer **el valor observado, el valor crítico y el valor p** y a partir de los mismos tomaremos la decisión de si rechazar o aceptar la $H_{0}$.
+
+Las funciones desarrolladas para calcular el valor observado, el valor crítico y el valor p son las siguientes:
+
+```{r}
+getComunStd <- function(m1,m2) {
+    s1 = sd(m1)
+    s2 = sd(m2)
+    n1 = length(m1)
+    n2 = length(m2)
+    comunStd = sqrt( ((n1 - 1)*(s1^2) + (n2-1)*(s2^2) ) / (n1 + n2 -2) )
+    return (comunStd)
+}
+getObservedValue <- function (m1,m2) {
+    return ((mean(m1) - mean(m2)) / ( getComunStd(m1,m2) * 
+                                        sqrt((1/length(m1)) + (1/length(m2)) ) ) )
+}
+getCriticalValueStudent <- function(n1,n2) {
+    return (qt((1-0.95)/2,(n1+n2-2)))
+}
+getPValueStudent <- function (tValue, degreesOfFreedom) {
+    return (pt(tValue, degreesOfFreedom, lower.tail = TRUE))
+}
+```
+
+A continuación, se procede a calcular dichos valores:
+
+### 3.3.1 Cálculo del valor observado
+
+```{r}
+t = getObservedValue(childCarSeats_clean[childCarSeats_clean$US=='Yes',]$Sales,
+                     childCarSeats_clean[childCarSeats_clean$US=='No',]$Sales)
+
+```
+
+En este caso, el valor observado obtenido es igual a `r t`
+
+### 3.3.2 Cálculo del valor crítico
+
+```{r}
+c = getCriticalValueStudent(length(childCarSeats_clean[childCarSeats_clean$US=='Yes',]$Sales),
+                            length(childCarSeats_clean[childCarSeats_clean$US=='No',]$Sales))
+```
+
+En este caso el valor crítico es igual a `r c`
+
+### 3.3.3 Cálculo del p valor
+
+```{r}
+df = length(childCarSeats_clean[childCarSeats_clean$US=='Yes',]$Sales) + 
+  length(childCarSeats_clean[childCarSeats_clean$US=='No',]$Sales) - 2
+
+p =  1 - getPValueStudent(t, df)
+
+```
+
+Por último, el p valor es igual a `r p`. 
+
+## 3.4 Conclusión
+
+Ya que el p valor es igual a `r p` y se cumple que **p es menor que 0.05**, que es el nivel de significación $\alpha$ fijado por defecto, **rechazamos la $H{0}$**, que decía que **la media poblacional de ventas era la misma en USA y fuera de USA**, y **aprobamos por tanto la $H1{0}$**, que decía que **la media poblacional de ventas dentro de USA era mayor que la media poblacional de ventas fuera de USA**. 
+
+Por lo tanto, podemos concluir que **estos datos confirman que las ventas en USA son superiores a las ventas fuera de USA con un 95% de nivel de confianza, por lo explicado en el párrafo anterior**.
+
+A diferencia de la conclusión obtenida en el **apartado 2.3**, se trata de una conclusión diferente, pues en el caso del apartado 2.3, afirmábamos que **con un 95% de probabilidad las medias poblacionales se encontrarían entre un rango de confianza calculado, y estas podían ser iguales muy probablemente puesto que tenían muchos puntos en común ambos intervalos calculados (intervalo de confianza en las tiendas de USA y de fuera de USA)**. Sin embargo en la conclusión de este apartado obtenemos que: **con un 95% de probabilidad, la media poblacional de ventas dentro de USA supera a la media poblacional de ventas fuera de USA.**
 
 
+# 4. Ventas en zonas urbanas y rurales 
+
+**Enunciado**:
 
 
+*Nos preguntamos ahora si las ventas en zonas urbanas son diferentes de las ventas en zonas rurales. Realizad un test de hipótesis de dos muestras para responder esta pregunta. Seguid los mismos pasos que en la sección anterior.**
+
+## 4.1 Hipótesis nula y alternativa
+
+**Enunciado**:
+
+*Escribid la hipótesis nula y la alternativa.*
+
+**Solución**:
+
+* La $H_{0}$ sería: Media poblacional de ventas del producto en zonas urbanas (de ahora en adelante $\mu_{URB}$) - Media poblacional de ventas del producto en zonas rurales (de ahora en adelante $\mu_{RUR}$) = 0 (es decir, que la media poblacional de ventas es la misma tanto en zonas urbanas como en zonas rurales)
+
+* La $H_{1}$ sería: $\mu_{URB}$ - $\mu_{RUR}$ != 0 (es decir, que la media poblacional de ventas en las zonas urbanas es distinta a la de las zonas rurales)
+
+## 4.2 Test a aplicar
+
+**Enunciado**:
+
+*Indicad qué test aplicaréis.*
+
+**Solución**:
+
+Al igual que en el **apartado 3.2**, se aplicará un **test de hipótesis sobre la diferencia de medias entre las dos muestras a evaluar (ventas en zonas rurales y ventas en zonas urbanas), partiendo del caso de que no se conoce las varianzas poblacionales, pero que estas son las mismas**.
+
+## 4.3 Cálculos
+
+**Enunciado**:
+
+*Calculad el test de hipótesis. Debéis desarrollar todos los cálculos con vuestras propias instrucciones. Calculad el valor observado, el valor crítico y el valor p. Al igual que antes, no podéis usar fuciones de R como t.test, pero sí podéis usar funciones como qnorm, pnorm, qt, pt para consultar los valores de las distribuciones normal y t-Student.*
+
+*Si acaso, podéis aprovechar funcionalidades que hayáis desarrollado anteriormente*
+
+**Solución**:
+
+Para calcular el test de hipótesis, se utilizarán las funciones desarrolladas anteriormente en el apartado 3.3, ya que se realizaron de manera general para poder reutilizarlas.
+
+### 4.3.1 Cálculo del valor observado
+
+```{r}
+t2 = getObservedValue(childCarSeats_clean[childCarSeats_clean$Urban=='Yes',]$Sales,
+                      childCarSeats_clean[childCarSeats_clean$Urban=='No',]$Sales)
+```
+
+En este caso, el valor observado obtenido es igual a `r t2`
+
+### 4.3.2 Cálculo del valor crítico
+
+```{r}
+c2 = getCriticalValueStudent(length(childCarSeats_clean[childCarSeats_clean$Urban=='Yes',]$Sales),
+                             length(childCarSeats_clean[childCarSeats_clean$Urban=='No',]$Sales))
+```
+
+En este caso, el valor crítico es igual a `r c2`
+
+### 4.3.3 Cálculo del p valor
+
+```{r}
+df2 = length(childCarSeats_clean[childCarSeats_clean$Urban=='Yes',]$Sales) +
+length(childCarSeats_clean[childCarSeats_clean$Urban=='No',]$Sales) - 2
+
+p2 = 2 * (1 - getPValueStudent(t2,df2))
+```
+
+En este caso, el p valor obtenido es igual a `r p2`
+
+## 4.4 Conclusión
+
+Ya que el p valor es igual a `r p2` y se cumple que p es mayor que 0.05, que es el nivel de significación $\alpha$ fijado por defecto, **no rechazamos la $H_{0}$ a favor de la $H_{1}$**, de manera que **estos datos no confirman que el nivel de ventas en las zonas urbanas sea distinto que el nivel de ventas en las zonas rurales**.
+
+# 5. Estrategia de precios
+
+**Enunciado**: 
+
+*Nos preguntamos si la proporción de tiendas que venden el producto por debajo del precio de la competencia es mayor que las que venden por encima del precio de la competencia.*
+
+*Para responder esta pregunta, se recomienda plantear un test sobre la proporción. Seguid los pasos que se indican a continuación.*
+
+## 5.1 Hipótesis nula y alternativa
+
+**Enunciado**: 
+
+*Escribid la hipótesis nula y la alternativa teniendo en cuenta la pregunta formulada.*
+
+**Solución**:
+
+* La $H_{0}$ sería: Proporción de tiendas que venden el producto por debajo del precio de la competencia (de ahora en adelante $p_{1}$) - Proporción de tiendas que venden el producto por encima del precio de la competencia (de ahora en adelante $p_{2}$) = 0 (es decir, la proporción de tiendas que venden el producto por debajo del precio de la competencia es igual a la proporción de tiendas que vende el producto por encima de la competencia)
+
+* La $H_{1}$ sería: $p_{1}$ - $p_{2}$ > 0 (es decir, que la proporción de tiendas que venden el producto por debajo del precio de la competencia es superior a aquellas que venden el producti por encima del precio de la competencia)
+
+## 5.2 Tipo de test
+
+**Enunciado**: 
+
+*Indicad qué tipo de test aplicaréis y por qué.*
+
+**Solución**:
+
+El tipo de test que aplicaremos para responder a la pregunta cuestionada será un test de hipótesis sobre la diferencia de proporciones, puesto que queremos comparar proporciones y no medias. 
+
+## 5.3 Cálculos
+
+**Enunciado**: 
+
+*Realizad todos los cálculos con instrucciones propias. Calculad el valor observado, el valor crítico y el valor p. Mostrad los resultados. No se pueden usar fuciones de R que resuelvan el cálculo (en todo caso, solo se pueden usar para validar vuestros resultados). Sí podéis usar funciones como qnorm, pnorm, qt, pt para consultar los valores de las distribuciones normal y t-Student.*
+
+**Solución**:
+
+Al igual que en el apartado 3.3, se **procederá a desarrollar** una serie de **funciones** que nos permitirán obtener **el valor observado, el valor crítico y el valor p**.
+
+Las funciones desarrolladas para calcular el valor observado, el valor crítico y el valor p son las siguientes:
+
+```{r}
+
+getCommonPopulationProportion <- function (n1,n2,p1,p2) {
+    return((n1*p1 + n2*p2) / (n1+n2))
+}
+
+getProportionObservedValue <- function (n1,n2,p1,p2) {
+    p = getCommonPopulationProportion(n1,n2,p1,p2)
+    stdError = sqrt(p*(1-p)*((1/n1)+(1/n2)))
+    z=(p1 - p2)/stdError
+    return (z)
+}
+
+getCriticalValueNormal <- function() {
+    return (abs((qnorm((1-0.95)/2))))
+}
+
+getPValueNormal <- function(z) {
+    return (pnorm(z,lower.tail = TRUE))
+}
+```
+
+A continuación, se preocede a calcular dichos valores.
+
+### 5.3.1 Cálculo del valor observado
+
+```{r}
+p1 = dim(childCarSeats_clean[childCarSeats_clean$Price < childCarSeats_clean$CompPrice,])[1] / 
+  length(childCarSeats_clean$Price)
+p2 = dim(childCarSeats_clean[childCarSeats_clean$Price > childCarSeats_clean$CompPrice,])[1] / 
+  length(childCarSeats_clean$Price)
+n2 = length(childCarSeats_clean$Price)
+n1 = length(childCarSeats_clean$Price)
+z = getProportionObservedValue(n1,n2,p1,p2)
+```
+
+En este caso, el valor obtenido por el valor observado es igual a `r z`
+
+### 5.3.2 Cálculo del valor crítico
+
+```{r}
+cnorm = getCriticalValueNormal()
+```
+
+En este caso, el valor obtenido por el valor crítico es `r cnorm`, este valor será siempre el mismo en esta práctica, puesto que el nivel de confianza fijado en esta es por defecto es del 95%.
+
+### 5.3.3 Cálculo del p valor
+
+```{r}
+pnorm = 1 - getPValueNormal(z)
+```
+
+En este caso, el valor obtenido para el p valor es de `r pnorm`.
+
+## 5.4 Conclusión
+
+Ya que el p valor es igual a `r pnorm`, y se cumple que p es menor que 0.05, que es el nivel de significación $\alpha$ dijado por defecto, entonces **rechazamos $H_{0}$ y estamos de acuerdo con el hecho de que la proporción de tiendas que venden el producto por debajo del precio de la competencia es mayor que las que venden por encima del precio de la competencia** (es decir,estamos de acuerdo con $H_{1}$). 
+
+Por lo tanto, respondiendo a la pregunta de *si la proporción de tiendas que venden el producto por debajo del precio de la competencia
+es mayor que las que venden por encima del precio de la competencia*, la respuesta sería positiva por lo indicado en el párrafo anterior.
 
 
