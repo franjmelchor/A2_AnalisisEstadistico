@@ -28,9 +28,9 @@ if(!require(Rmisc)){
 
 **Solución**:
 
-En primer lugar, realizamos la lectura del fichero **ChildCarSeats_clean**, aplicando para ello la función *read.csv*.
+En primer lugar, se realiza la lectura del fichero **ChildCarSeats_clean**, aplicando para ello la función *read.csv*.
 
-En este caso, indicaremos como parámetros que el dataset sí tiene header *(header=TRUE)*, que el separador de columnas es la ',' *(sep=",")*, que los strings a interpretar como NA son tanto los campos vacíos, los que tienen un espacio en blanco y en los que aparece la cadena "NA" *(na.strings=c(""," ","NA"))* y por último, que las columnas de tipo String, sean consideradas como factores, ya que todas las columnas que son de tipo String, en este caso son factores.
+En este caso, se indicarán como parámetros que el dataset sí tiene header *(header=TRUE)*, que el separador de columnas es la ',' *(sep=",")*, que los strings a interpretar como NA son tanto los campos vacíos, los que tienen un espacio en blanco y en los que aparece la cadena "NA" *(na.strings=c(""," ","NA"))* y por último, que las columnas de tipo String, sean consideradas como factores, ya que todas las columnas que son de tipo String, en este caso son factores.
 
 ```{r}
 childCarSeats_clean_filename <- "../Data/ChildCarSeats_clean.csv"
@@ -42,7 +42,7 @@ str(childCarSeats_clean)
 ```
 Como se puede observar, todos los tipos de las columnas han sido asignagos correctamente.
 
-A continuación, procederemos a realizar una visualización de las diferentes columnas o variables que forman el dataset, para ver como se distribuyen las mismas.
+A continuación, se procede a realizar una visualización de las diferentes columnas o variables que forman el dataset, para ver como se distribuyen las mismas.
 
 ## 1.1 Representación gráfica de variables categóricas o cualitativas
 ```{r}
@@ -55,9 +55,9 @@ Como se puede observar, las únicas variables categóricas son:
 * **Urban**, que indica si la tienda se encuentra en una ubicación urbana o rural (dos posibles valores: Yes y No)
 * **US**, que indica si la tienda se encuentra en EUA o no (dos posibles valores: Yes y No)
 
-Para representar gráficamente las variables anteriores, realizaremos un **diagrama de barras** en el caso de la variable **ShelveLoc** y un **diagrama de sectores** para las variables **Urban** y **US**.
+Para representar gráficamente las variables anteriores, se realizará un **diagrama de barras** en el caso de la variable **ShelveLoc** y un **diagrama de sectores** para las variables **Urban** y **US**.
 
-La razón por la cual he considerado más oportuno utilizar para las variables Urban y US un diagrama de sectores y no un diagrama de barras, es porque estas solo pueden tomar dos posibles valores, por lo que considero que un diagrama de sectores permitirá captar mejor a simple vista la distribución de las categorías, que si se representa mediante un diagrama de barras.
+La razón por la cual se ha considerado más oportuno utilizar para las variables Urban y US un diagrama de sectores y no un diagrama de barras, es porque estas solo pueden tomar dos posibles valores, por lo que se considera que un diagrama de sectores permitirá captar mejor a simple vista la distribución de las categorías, que si se representa mediante un diagrama de barras.
 
 ```{r}
 layout(matrix(c(1,1,2,3), 2, 2, byrow = TRUE))
@@ -84,9 +84,9 @@ pie(mytableUS, labels = lblsUS, col=rainbow(length(lblsUS)),
     main="Pie Chart of US\n")
 ```
 
-* La primera gráfica, nos indica que **la mayoría de las sillas tienen un nivel de calidad de ubicación medio**, y que el grupo que presenta la minoría es el que se corresponde con la calidad de ubicación buena, lo que quiere decir que **sólo una pequeña parte del total de tiendas tienen ubicadas correctamente las sillas**.
+* La primera gráfica, indica que **la mayoría de las sillas tienen un nivel de calidad de ubicación medio**, y que el grupo que presenta la minoría es el que se corresponde con la calidad de ubicación buena, lo que quiere decir que **sólo una pequeña parte del total de tiendas tienen ubicadas correctamente las sillas**.
 
-* La segunda gráfica empezando por la izquierda, nos indica que **la mayoría de las tiendas analizadas se encuentran en una población urbana**, pues la clase "Yes" representa el 70% de los casos.
+* La segunda gráfica empezando por la izquierda, indica que **la mayoría de las tiendas analizadas se encuentran en una población urbana**, pues la clase "Yes" representa el 70% de los casos.
 
 * Por último, la última gráfica indica que **la mayoría de las tiendas que se están analizando se encuentran dentro de USA**, pues la clase "Yes", representa un 64%.
 
@@ -106,7 +106,7 @@ Como se puede observar, las variables numéricas representan la gran mayoría de
 * **Price**, que indica el precio de las sillitas de coche en cada ubicación
 * **Age**, que indica la edad media de la población local.
 
-Todas ellas son de tipo numérico, pero solo la primera es de tipo decimal, las demás son de tipo entero. Por ello, para representarlas gráficamente, en el caso de la variable **Sales**, la representaremos mediante un diagrama de puntos y en el caso de las demás variables enteras, se representarán mediante un histograma de frecuencias relativas.
+Todas ellas son de tipo numérico, pero solo la primera es de tipo decimal, las demás son de tipo entero. Por ello, para representarlas gráficamente, en el caso de la variable **Sales**, se representará mediante un diagrama de puntos y en el caso de las demás variables enteras, se representarán mediante un histograma de frecuencias relativas.
 
 La razón por la que se ha decidido representar la variable **Sales** mediante un diagrama de punto es porque al poder tomar valores decimales, esta representación permitirá ver mejor como se distribuyen los diferentes valores, mientras que el histograma nos permitirá ver mejor las demás variables que son de tipo entero.
 
@@ -151,7 +151,7 @@ col=colorForHistograms[7],main="Media del nivel de educación de la población",
 
 ```
 
-* Si observamos la **primera gráfica** comenzando por la izquierda, podemos observar que la gran mayoría de valores se encuentran acumulados entre 5 y 10, lo que indica que **la gran mayoría de las tiendas venden entre 5 mil y 10 mil sillas**. También se puede observar que existen algunos valores atípicos por encima de 15 mil.
+* Si se observa la **primera gráfica** comenzando por la izquierda, se puede ver que la gran mayoría de valores se encuentran acumulados entre 5 y 10, lo que indica que **la gran mayoría de las tiendas venden entre 5 mil y 10 mil sillas**. También se puede observar que existen algunos valores atípicos por encima de 15 mil.
 
 * La **segunda gráfica** se trata de un histograma con una distribución **bimodal** ya que sobresalen dos picos por encima de los demás. Esto indica que existen dos modas presentes en el precio que cobra la competencia, en este caso la primera sería de [120,125) y la segunda de [130,135), lo que quiere decir que **el precio que cobra la competencia tiende a estar en el intervalo [120,125) y en el intervalo [130,135)**
 
@@ -162,23 +162,24 @@ col=colorForHistograms[7],main="Media del nivel de educación de la población",
 
 * La **cuarta gráfica** se trata de un histograma con una distribución **unimodal con asimetría a la derecha**, además de manera **muy pronunciada**. En este caso, la moda se encuentra en el primer intervalo, que corresponde con el intervalo [0,1.5), lo que quiere decir que **la mayoría de las tiendas invierten unos 1500 euros en publicidad local para publicitar las sillitas de bebé**
 
-* La **quinta gráfica** se trata de un histograma con una distribución **uniforme**, lo que nos indica que **el tamaño de la población está distribuido de manera uniforme entre 10 mil que es el mínimo y 509 mil que es el máximo** de población.
+* La **quinta gráfica** se trata de un histograma con una distribución **uniforme**, lo que indica que **el tamaño de la población está distribuido de manera uniforme entre 10 mil que es el mínimo y 509 mil que es el máximo** de población.
 
 * La **sexta gráfica** se trata de un histograma con una distribución **unimodal con una forma normal o simétrico**. En este caso, la moda se encuentra apróximadamente en los tres intervalos centrales, que corresponden con el intervalo [100,130] apróximadamente si juntamos los tres. Esto quiere decir, que **la mayoría de las sillas tienen un precio entre los 100 y los 130 euros apróximadamente**.
 
 * Por último, **tanto la séptima gráfica como la octava**, representan un **histograma con una distribución uniforme**, lo que indica que tanto **la edad media de la población** como **los años de educación** **se reparten de manera uniforme** entre todos sus valores posibles, **en el caso de la edad media entre los 25 y los 70 años**, y **en el caso de los años de educación entre los 10 y los 18 años**.
 
 # 2. Intervalo de confianza de la media poblacional de las ventas
+
 **Enunciado**: *Calculad de manera manual el intervalo de confianza de la media poblacional de las ventas (variable Sales) e interpretar el significado del mismo a partir del resultado obtenido.*
 
 **Solución**:
-A continuación, procederemos a realizar el cálculo del intervalo de confianza de la variable **Sales**
+A continuación, se procede a realizar el cálculo del intervalo de confianza de la variable **Sales**
 
 ## 2.1 Cálculo
-Para realizar el cálculo manual de la variable **sales**, utilizaremos varias funciones, entre ellas cabe destacar las siguientes:
+Para realizar el cálculo manual de la variable **sales**, se utilizarán varias funciones, entre ellas cabe destacar las siguientes:
 
-* **sd**: En primer lugar utilizaremos la función sd para calcular la desviación estándar de la variable Sales
-* **qt**: La función qt la utilizaremos para calcular los valores críticos de la distribución t de Student, la cual recibe como primer parámetro el inverso al nivel de confianza y como segundo parámetro el grado de libertad. En nuestro caso el nivel de confianza por defecto es 95%, por lo que como primer parámetro se pasará el valor **"(1-0.95)/2"** (la razón por la que dividimos entre dos es porque queremos obtener el valor crítico para una prueba bilateral) y como segundo parámetro pasaremos **n - 1** *siendo n la longitud del vector Sales*.
+* **sd**: En primer lugar se utilizará la función sd para calcular la desviación estándar de la variable Sales
+* **qt**: La función qt la se utilizará para calcular los valores críticos de la distribución t de Student, la cual recibe como primer parámetro el inverso al nivel de confianza y como segundo parámetro el grado de libertad. En este caso el nivel de confianza por defecto es 95%, por lo que como primer parámetro se pasará el valor **"(1-0.95)/2"** (la razón por la que se divide entre dos es porque se quiere obtener el valor crítico para una prueba bilateral) y como segundo parámetro pasaremos **n - 1** *siendo n la longitud del vector Sales*.
 
 Por último, tras utilizar estas funciones, se aplicará la fórmula del **margen de error** (Figura 1) para calcular el mismo a partir de los valores anteriormente calculados, y posteriormente, poder calcular a partir de este el **intervalo de confianza** (Figura 2).
 
@@ -209,25 +210,27 @@ CI(childCarSeats_clean$Sales, ci=0.95)
 
 ```
 
-Como se puede observar, el componente **lower** devuelto por la función CI, **coincide con el valor inferior** del intervalo que hemos **calculado anteriormente** y el componente **upper, coincide con el valor superior**.
+Como se puede observar, el componente **lower** devuelto por la función CI, **coincide con el valor inferior** del intervalo que se ha **calculado anteriormente** y el componente **upper, coincide con el valor superior**.
 
 ## 2.2 Interpretación 
 
 La interpretación del resultado obtenido como intervalo de confianza es la siguiente: **existe una probabilidad del 95% de que el verdadero valor de la media poblacional de la variable Sales se encuentre entre los valores 7.141372 y 7.678578**
 
 ## 2.3 Intervalo de confianza de la media poblacional de Sales en USA y fuera de USA
+
 **Enunciado**:
 
 *Calculad el intervalo de confianza de la media poblacional de Sales en las tiendas de USA y en las tiendas de fuera de USA respectivamente. Comparad los resultados. ¿Podemos concluir que las dos variables tienen medias poblacionales iguales o diferentes? Explicar.*
 
 **Solución**:
-A continuación, procedemos a realizar el cálculo del intervalo de confianza en las tiendas de USA y en las tiendas fuera de USA.
+A continuación, se procede a realizar el cálculo del intervalo de confianza en las tiendas de USA y en las tiendas fuera de USA.
 ```{r}
 getConfidentInterval(childCarSeats_clean[childCarSeats_clean$US=='Yes',]$Sales)
 getConfidentInterval(childCarSeats_clean[childCarSeats_clean$US=='No',]$Sales)
 
 ```
-Como se puede ver, los intervalos obtenidos para esta media muestral son diferentes para las tiendas que se encuentran dentro de USA y para las que se encuentran fuera de USA, pero a pesar de ser diferentes tiene muchos valores posibles en común, ya que existen valores comunes en ambos intervalos. Pero realmente contestando a la pregunta de si ***¿Podemos concluir que las dos variables tienen medias poblacionales iguales o diferentes?***, la respuesta sería **negativa**, es decir, no podemos concluir o afirmar que las dos variables tienen medias poblacionales iguales o diferentes porque no podemos asegurar que el resultado de la media poblacional se encuentra realmente entre los intervalos de confianza que hemos obtenido, lo único que podriamos concluir es que con un 95% de probabilidad la media poblacional de ambas se encontrará entre los intervalos calculados, puede que esta media sea la misma (ya que muchos puntos de dichos intervalos son comunes), pero en ningún caso podríamos concluir o asegurar que la media poblacional de ambos casos es igual o diferente.
+
+Como se puede ver, los intervalos obtenidos para esta media muestral son diferentes para las tiendas que se encuentran dentro de USA y para las que se encuentran fuera de USA, pero a pesar de ser diferentes tiene muchos valores posibles en común, ya que existen valores comunes en ambos intervalos. Pero realmente contestando a la pregunta de si ***¿Podemos concluir que las dos variables tienen medias poblacionales iguales o diferentes?***, la respuesta sería **negativa**, es decir, no se puede concluir o afirmar que las dos variables tienen medias poblacionales iguales o diferentes porque no podemos asegurar que el resultado de la media poblacional se encuentra realmente entre los intervalos de confianza que se han obtenido, lo único que se podría concluir es que **con un 95% de probabilidad la media poblacional de ambas se encontrará entre los intervalos calculados, puede que esta media sea la misma (ya que muchos puntos de dichos intervalos son comunes), pero en ningún caso se podría concluir o asegurar que la media poblacional de ambos casos es igual o diferente.**
 
 
 # 3. Ventas del producto en USA y fuera de USA
@@ -243,9 +246,9 @@ Como se puede ver, los intervalos obtenidos para esta media muestral son diferen
 
 **Solución**:
 
-* La **hipótesis nula** (de ahora en adelante $H_{0}$) sería: Media Poblacional de ventas del producto dentro de USA (de ahora en adelante $\mu_{DUSA}$) - Media Poblacional de ventas del producto fuera de USA (de ahora en adelante $\mu_{FUSA}$) = 0 ($H_{0}$: $\mu_{DUSA}$ - $\mu_{FUSA}$ = 0) (es decir, que la media poblacional de ventas es la misma tanto dentro de USA como fuera de USA)
+* La **hipótesis nula** (de ahora en adelante $H_{0}$) sería: Media Poblacional de ventas del producto dentro de USA (de ahora en adelante $\mu_{DUSA}$) - Media Poblacional de ventas del producto fuera de USA (de ahora en adelante $\mu_{FUSA}$) = 0 **($H_{0}$: $\mu_{DUSA}$ - $\mu_{FUSA}$ = 0)** (es decir, que la media poblacional de ventas es la misma tanto dentro de USA como fuera de USA)
 
-* La **hipótesis alternativa** (de ahora en adelante $H_{1}$) sería:  $\mu_{DUSA}$ - $\mu_{FUSA}$ > 0 ($H_{1}$: $\mu_{DUSA}$ - $\mu_{FUSA}$ > 0) (es decir, que la media poblacional de ventas en las tiendas de USA es superior a la media poblacional de ventas en las tiendas fueras de USA)
+* La **hipótesis alternativa** (de ahora en adelante $H_{1}$) sería:  **$\mu_{DUSA}$ - $\mu_{FUSA}$ > 0** (es decir, que la media poblacional de ventas en las tiendas de USA es superior a la media poblacional de ventas en las tiendas fueras de USA)
 
 ## 3.2 Test a aplicar
 
@@ -255,7 +258,7 @@ Como se puede ver, los intervalos obtenidos para esta media muestral son diferen
 
 **Solución**:
 
-Para revisar si se cumple el supuesto de normalidad para la variable Sales representaremos esta gráficamente a través de un histograma y de una línea de puntos y veremos si tiene la forma de la distribución normal o similar a esta:
+Para revisar si se cumple el supuesto de normalidad para la variable Sales se representará esta gráficamente a través de un histograma y de una línea de puntos y así se podrá observar si esta si tiene la forma de la distribución normal o similar a esta:
 
 ```{r}
 x <- childCarSeats_clean$Sales
@@ -267,9 +270,9 @@ yfit <- yfit*diff(h$mids[1:2])*length(x)
 lines(xfit, yfit, col="blue", lwd=2)
 ```
 
-Como se puede observar a través de la gráfica anterior, la distribución muestral de la variable Sales, se distribuye aproximadamente como una muestra normal, podríamos decir que como una distribución t Student, ya que es la distribución más cercana a la normal. Pero además de ello, aplicando el **teorema del límite central**, al tratarse de una muestra bastante grande (n = 400 > 30), sea cual sea la distribución de la variable de interés o de la media poblacional, la **distribución de la media muestral de la variable Sales será aproximadamente como una normal**, siendo la desviación típica de la media muestral aproximadamente el error estándar.
+Como se puede observar a través de la gráfica anterior, la distribución muestral de la variable Sales, se distribuye aproximadamente como una muestra normal, se podría decir que como una distribución t Student, ya que es la distribución más cercana a la normal. Pero además de ello, aplicando el **teorema del límite central**, al tratarse de una muestra bastante grande (n = 400 > 30), sea cual sea la distribución de la variable de interés o de la media poblacional, la **distribución de la media muestral de la variable Sales será aproximadamente como una normal**, siendo la desviación típica de la media muestral aproximadamente el error estándar.
 
-Una vez comprobado que la distribución cumple el supuesto de normalidad, el test que aplicaremos para evaluar si las ventas del producto son superiores en las tiendas de USA que fuera de USA es un **test de hipótesis sobre la diferencia de medias entre las dos muestras a evaluar (ventas fueras de USA y ventas dentro de USA), partiendo del caso de que se desconoce las varianzas poblacionales pero que estas son las mismas **.
+Una vez comprobado que la distribución cumple el supuesto de normalidad, el test que se aplicará para evaluar si las ventas del producto son superiores en las tiendas de USA que fuera de USA es un **test de hipótesis sobre la diferencia de medias entre las dos muestras a evaluar (ventas fueras de USA y ventas dentro de USA), partiendo del caso de que se desconoce las varianzas poblacionales pero que estas son las mismas **.
 
 
 ## 3.3 Cálculos
@@ -279,9 +282,9 @@ Una vez comprobado que la distribución cumple el supuesto de normalidad, el tes
 *Calculad el test de hipótesis. Debéis desarrollar todos los cálculos con vuestras propias instrucciones. Calculad el valor observado, el valor crítico y el valor p. Al igual que antes, no podéis usar fuciones de R como t.test, pero sí podéis usar funciones como qnorm, pnorm, qt, pt para consultar los valores de las distribuciones normal y t-Student.*
 
 **Solución**:
-Para calcular el **test de hipótesis** utilizaremos ciertas funciones desarrolladas que nos permitirán conocer **el valor observado, el valor crítico y el valor p** y a partir de los mismos tomaremos la decisión de si rechazar o aceptar la $H_{0}$.
+Para calcular el **test de hipótesis** se utilizarán ciertas funciones desarrolladas que permitirán conocer **el valor observado, el valor crítico y el valor p** y a partir de los mismos se procederá a tomar la decisión de si rechazar o aceptar la $H_{0}$.
 
-Las funciones desarrolladas para calcular el valor observado, el valor crítico y el valor p son las siguientes:
+Las funciones que se han implementado para calcular el valor observado, el valor crítico y el valor p son las siguientes:
 
 ```{r}
 getComunStd <- function(m1,m2) {
@@ -341,9 +344,9 @@ Por último, el p valor es igual a `r p`.
 
 Ya que el p valor es igual a `r p` y se cumple que **p es menor que 0.05**, que es el nivel de significación $\alpha$ fijado por defecto, **rechazamos la $H{0}$**, que decía que **la media poblacional de ventas era la misma en USA y fuera de USA**, y **aprobamos por tanto la $H1{0}$**, que decía que **la media poblacional de ventas dentro de USA era mayor que la media poblacional de ventas fuera de USA**. 
 
-Por lo tanto, podemos concluir que **estos datos confirman que las ventas en USA son superiores a las ventas fuera de USA con un 95% de nivel de confianza, por lo explicado en el párrafo anterior**.
+Por lo tanto, se puede concluir que **estos datos confirman que las ventas en USA son superiores a las ventas fuera de USA con un 95% de nivel de confianza, por lo explicado en el párrafo anterior**.
 
-A diferencia de la conclusión obtenida en el **apartado 2.3**, se trata de una conclusión diferente, pues en el caso del apartado 2.3, afirmábamos que **con un 95% de probabilidad las medias poblacionales se encontrarían entre un rango de confianza calculado, y estas podían ser iguales muy probablemente puesto que tenían muchos puntos en común ambos intervalos calculados (intervalo de confianza en las tiendas de USA y de fuera de USA)**. Sin embargo en la conclusión de este apartado obtenemos que: **con un 95% de probabilidad, la media poblacional de ventas dentro de USA supera a la media poblacional de ventas fuera de USA.**
+A diferencia de la conclusión obtenida en el **apartado 2.3**, se trata de una conclusión diferente, pues en el caso del apartado 2.3, se afirmaba que **con un 95% de probabilidad las medias poblacionales se encontrarían entre un rango de confianza calculado, y estas podían ser iguales muy probablemente puesto que tenían muchos puntos en común ambos intervalos calculados (intervalo de confianza en las tiendas de USA y de fuera de USA)**. Sin embargo en la conclusión de este apartado se obtiene que: **con un 95% de probabilidad, la media poblacional de ventas dentro de USA supera a la media poblacional de ventas fuera de USA.**
 
 
 # 4. Ventas en zonas urbanas y rurales 
@@ -361,9 +364,9 @@ A diferencia de la conclusión obtenida en el **apartado 2.3**, se trata de una 
 
 **Solución**:
 
-* La $H_{0}$ sería: Media poblacional de ventas del producto en zonas urbanas (de ahora en adelante $\mu_{URB}$) - Media poblacional de ventas del producto en zonas rurales (de ahora en adelante $\mu_{RUR}$) = 0 (es decir, que la media poblacional de ventas es la misma tanto en zonas urbanas como en zonas rurales)
+* La $H_{0}$ sería: Media poblacional de ventas del producto en zonas urbanas (de ahora en adelante $\mu_{URB}$) - Media poblacional de ventas del producto en zonas rurales (de ahora en adelante $\mu_{RUR}$) = 0 **($\mu_{URB}$ - $\mu_{RUR}$ = 0)** (es decir, que la media poblacional de ventas es la misma tanto en zonas urbanas como en zonas rurales) 
 
-* La $H_{1}$ sería: $\mu_{URB}$ - $\mu_{RUR}$ != 0 (es decir, que la media poblacional de ventas en las zonas urbanas es distinta a la de las zonas rurales)
+* La $H_{1}$ sería: **$\mu_{URB}$ - $\mu_{RUR}$ != 0** (es decir, que la media poblacional de ventas en las zonas urbanas es distinta a la de las zonas rurales)
 
 ## 4.2 Test a aplicar
 
@@ -418,7 +421,7 @@ En este caso, el p valor obtenido es igual a `r p2`
 
 ## 4.4 Conclusión
 
-Ya que el p valor es igual a `r p2` y se cumple que p es mayor que 0.05, que es el nivel de significación $\alpha$ fijado por defecto, **no rechazamos la $H_{0}$ a favor de la $H_{1}$**, de manera que **estos datos no confirman que el nivel de ventas en las zonas urbanas sea distinto que el nivel de ventas en las zonas rurales**.
+Ya que el p valor es igual a `r p2` y se cumple que p es mayor que 0.05, que es el nivel de significación $\alpha$ fijado por defecto, **no se rechaza la $H_{0}$ a favor de la $H_{1}$**, de manera que **estos datos no confirman que el nivel de ventas en las zonas urbanas sea distinto que el nivel de ventas en las zonas rurales**.
 
 # 5. Estrategia de precios
 
@@ -436,9 +439,9 @@ Ya que el p valor es igual a `r p2` y se cumple que p es mayor que 0.05, que es 
 
 **Solución**:
 
-* La $H_{0}$ sería: Proporción de tiendas que venden el producto por debajo del precio de la competencia (de ahora en adelante $p_{1}$) - Proporción de tiendas que venden el producto por encima del precio de la competencia (de ahora en adelante $p_{2}$) = 0 (es decir, la proporción de tiendas que venden el producto por debajo del precio de la competencia es igual a la proporción de tiendas que vende el producto por encima de la competencia)
+* La $H_{0}$ sería: Proporción de tiendas que venden el producto por debajo del precio de la competencia (de ahora en adelante $p_{1}$) - Proporción de tiendas que venden el producto por encima del precio de la competencia (de ahora en adelante $p_{2}$) = 0 **($p_{1}$ - $p_{2}$ = 0)** (es decir, la proporción de tiendas que venden el producto por debajo del precio de la competencia es igual a la proporción de tiendas que vende el producto por encima de la competencia) 
 
-* La $H_{1}$ sería: $p_{1}$ - $p_{2}$ > 0 (es decir, que la proporción de tiendas que venden el producto por debajo del precio de la competencia es superior a aquellas que venden el producti por encima del precio de la competencia)
+* La $H_{1}$ sería: **$p_{1}$ - $p_{2}$ > 0** (es decir, que la proporción de tiendas que venden el producto por debajo del precio de la competencia es superior a aquellas que venden el producti por encima del precio de la competencia)
 
 ## 5.2 Tipo de test
 
@@ -448,7 +451,7 @@ Ya que el p valor es igual a `r p2` y se cumple que p es mayor que 0.05, que es 
 
 **Solución**:
 
-El tipo de test que aplicaremos para responder a la pregunta cuestionada será un test de hipótesis sobre la diferencia de proporciones, puesto que queremos comparar proporciones y no medias. 
+El tipo de test que se aplicará para responder a la pregunta cuestionada será un test de hipótesis sobre la diferencia de proporciones, puesto que se van a comparar proporciones de una población y no medias de las mismas. 
 
 ## 5.3 Cálculos
 
@@ -458,7 +461,7 @@ El tipo de test que aplicaremos para responder a la pregunta cuestionada será u
 
 **Solución**:
 
-Al igual que en el apartado 3.3, se **procederá a desarrollar** una serie de **funciones** que nos permitirán obtener **el valor observado, el valor crítico y el valor p**.
+Al igual que en el apartado 3.3, se **procederá a desarrollar** una serie de **funciones** que permitirán obtener **el valor observado, el valor crítico y el valor p**.
 
 Las funciones desarrolladas para calcular el valor observado, el valor crítico y el valor p son las siguientes:
 
@@ -517,10 +520,94 @@ pnorm = 1 - getPValueNormal(z)
 En este caso, el valor obtenido para el p valor es de `r pnorm`.
 
 ## 5.4 Conclusión
+**Enunciado**:
 
-Ya que el p valor es igual a `r pnorm`, y se cumple que p es menor que 0.05, que es el nivel de significación $\alpha$ dijado por defecto, entonces **rechazamos $H_{0}$ y estamos de acuerdo con el hecho de que la proporción de tiendas que venden el producto por debajo del precio de la competencia es mayor que las que venden por encima del precio de la competencia** (es decir,estamos de acuerdo con $H_{1}$). 
+*A partir de los valores obtenidos, responded la pregunta formulada.*
 
-Por lo tanto, respondiendo a la pregunta de *si la proporción de tiendas que venden el producto por debajo del precio de la competencia
-es mayor que las que venden por encima del precio de la competencia*, la respuesta sería positiva por lo indicado en el párrafo anterior.
+**Solución**:
+
+Ya que el p valor es igual a `r pnorm`, y se cumple que **el p valor es menor que 0.05**, que es el nivel de significación **$\alpha$** dijado por defecto, entonces **se rechaza $H_{0}$ y se aprueba el hecho de que la proporción de tiendas que venden el producto por debajo del precio de la competencia es mayor que las que venden por encima del precio de la competencia** (es decir, se aprueba $H_{1}$). 
+
+Por lo tanto, respondiendo a la pregunta de *si la proporción de tiendas que venden el producto por debajo del precio de la competencia es mayor que las que venden por encima del precio de la competencia*, **la respuesta sería positiva con un nivel de confianza del 95% en base al resultado obtenido por el test de hipótesis.**
+
+# 6.Diferencias en la estrategia de precios
+
+**Enunciado**: 
+
+*Se cree que las tiendas de USA usan una estrategia de precios más agresiva en relación con las tiendas de fuera de USA. Para investigar esta hipótesis, calculamos en cuantas ocasiones el precio de la tienda es inferior al precio de la competencia. A partir de este cálculo, nos preguntamos: ¿la proporción de casos en los que el precio de la tienda es más bajo que la competencia (estrategia de precios bajos) es diferente en las tiendas de USA que en las tiendas fuera de USA?*
+
+*Para responder esta pregunta, se recomienda plantear un test sobre la proporción.*
+
+*Seguid los pasos que se indican a continuación.*
+
+## 6.1 Hipótesis nula y alternativa
+
+**Enunciado**:
+
+*Escribid la hipótesis nula y la alternativa teniendo en cuenta la pregunta formulada.*
+
+**Solución**:
+
+* La $H_{0}$ sería: Proporción de casos en los que el precio de la tienda es más bajo que el de la competencia en tiendas de USA(de ahora en adelante $p_{1}$) - Proporción de casos en los que el precio de la tienda es más bajo que el de la competencia en tiendas fuera de USA  (de ahora en adelante $p_{2}$)= 0 **($p_{1}$ - $p_{2}$ = 0)** (es decir, la proporción de casos en los que el precio de la tienda es más bajo que el de la competencia en las tiendas de USA es igual que la proporción de casos en los que el precio de la tienda es más bajo que el de la competencia en las tiendas fueras de USA) 
+
+* La $H_{1}$ sería: **$p_{1}$ - $p_{2}$ != 0** (es decir, la proporción de casos en los que el precio de la tienda es más bajo que el de la competencia en las tiendas de USA es distinto que la proporción de casos en los que el precio de la tienda es más bajo que el de la competencia en las tiendas fueras de USA)
+
+### 6.2 Tipo de test
+
+**Enunciado**:
+
+*Indicad qué tipo de test aplicaréis y por qué*
+
+**Solución**:
+
+El tipo de test que se aplicará para responder a la pregunta cuestionada será un test de hipótesis sobre la
+diferencia de proporciones, puesto que se quieren comparar proporciones y no medias.
+
+## 6.3 Cálculos
+
+**Enunciado**:
+
+*Realizad todos los cálculos con instrucciones propias. Calculad el valor observado, el valor crítico y el valor p. Mostrad los resultados. No se pueden usar fuciones de R que resuelvan el cálculo (en todo caso, solo se pueden usar para validar vuestros resultados). Sí podéis usar funciones como qnorm, pnorm, qt, pt para consultar los valores de las distribuciones normal y t-Student.*
+
+**Solución**:
+
+Para calcular el valor observado, el valor crítico y el valor p se utilizarán las funciones desarrolladas anteriormente en el apartado 5.3, ya que se realizaron de manera general para poder reutilizarlas.
+
+### 6.3.1 Cálculo del valor observado
+
+```{r}
+df6 = childCarSeats_clean[childCarSeats_clean$Price < childCarSeats_clean$CompPrice,]
+p16 = dim (df6[df6$US == 'Yes',])[1] / dim(df6)[1]
+p26 = dim (df6[df6$US == 'No',])[1] / dim(df6)[1]
+n = dim(df6)[1]
+z6 = getProportionObservedValue(n,n,p16,p26)
+```
+En este caso, el valor obtenido por el valor observado es igual a `r z6`.
+
+### 6.3.2 Cálclo del valor crítico
+
+El valor crítico, es el mismo que en el apartado 5.3.2, ya que el nivel de confianza está fijado en la práctica al 95%, se recuerda que el valor era igual a `r cnorm`
+
+### 6.3.3 Cálculo del p valor
+
+```{r}
+pnorm6 = 2 * (1 - getPValueNormal(z6))
+```
+
+En este caso, el valor obtenido para el p valor es de `r pnorm6`.
+
+## 6.4 Conclusión
+
+**Enunciado**:
+
+*A partir de los valores obtenidos, responded la pregunta formulada.*
+
+**Solución**:
+
+Ya que el p valor es igual a `r pnorm6, y se cumple que **el p valor es menor que 0.05**, que es el nivel de significación **$\alpha$** fijado por defencto, entonces **se rechaza $H_{0}$ y se aprueba el hecho de que la proporción de casos en los que el precio de la tienda es más bajo que el de la competencia en las tiendas de USA es igual que la proporción de casos en los que el precio de la tienda es más bajo que el de la competencia en las tiendas fueras de USA (es decir, se aprueba la hipótesis $H_{1}$)**.
+
+Por lo tanto, respondiendo a la pregunta *¿la proporción de casos en los que el precio de la tienda es más bajo que la competencia (estrategia de precios bajos) es diferente en las tiendas de USA que en las tiendas fuera de USA?*, **la respuesta sería positiva con un nivel de confianza del 95% en base al resultado obtenido por el test de hipótesis.**
+
+
 
 
